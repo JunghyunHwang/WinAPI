@@ -147,8 +147,28 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Add any drawing code that uses hdc here...
+
+            HPEN hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+            HBRUSH hBluebrush = CreateSolidBrush(RGB(0, 0, 255));
+            
+            HPEN hDefaultPen = (HPEN)SelectObject(hdc, hRedPen);
+            HBRUSH hDefaultBrush = (HBRUSH)SelectObject(hdc, hBluebrush);
+
+            Rectangle(hdc, 10, 10, 400, 300);
+
+            SelectObject(hdc, hDefaultPen);
+            DeleteObject(hRedPen);
+
+            SelectObject(hdc, hDefaultBrush);
+            DeleteObject(hBluebrush);
+
             EndPaint(hWnd, &ps);
         }
+        break;
+    case WM_KEYDOWN:
+    {
+
+    }
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
