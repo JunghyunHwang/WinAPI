@@ -8,6 +8,7 @@
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
+HWND gHWnd;
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
@@ -16,6 +17,8 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+using namespace assort;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -38,20 +41,37 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
+    App* app = App::GetInstance();
+    app->Init(gHWnd, POINT{1280, 760});
+
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_WINLECTURE));
 
     MSG msg;
 
     // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    while (true)
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            if (msg.message == WM_QUIT)
+            {
+                break;
+            }
+
+            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+            {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+
+        }
+        else
+        {
+            app->Run();
         }
     }
 
+    app->Release();
     return (int) msg.wParam;
 }
 
@@ -97,16 +117,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   gHWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
-   if (!hWnd)
+   if (!gHWnd)
    {
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   ShowWindow(gHWnd, nCmdShow);
+   UpdateWindow(gHWnd);
 
    return TRUE;
 }
@@ -141,34 +161,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 return DefWindowProc(hWnd, message, wParam, lParam);
             }
         }
-        break;
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: Add any drawing code that uses hdc here...
-
-            HPEN hRedPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-            HBRUSH hBluebrush = CreateSolidBrush(RGB(0, 0, 255));
-            
-            HPEN hDefaultPen = (HPEN)SelectObject(hdc, hRedPen);
-            HBRUSH hDefaultBrush = (HBRUSH)SelectObject(hdc, hBluebrush);
-
-            Rectangle(hdc, 10, 10, 400, 300);
-
-            SelectObject(hdc, hDefaultPen);
-            DeleteObject(hRedPen);
-
-            SelectObject(hdc, hDefaultBrush);
-            DeleteObject(hBluebrush);
-
-            EndPaint(hWnd, &ps);
-        }
-        break;
-    case WM_KEYDOWN:
-    {
-
-    }
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
