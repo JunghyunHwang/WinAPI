@@ -1,13 +1,13 @@
 #pragma once
 
 #include "framework.h"
-#include "CObject.h"
 
 namespace assort
 {
-	class CObject;
+	class Object;
+	class TimeManager;
 
-	class App
+	class App final
 	{
 	public:
 		static App* GetInstance();
@@ -15,6 +15,8 @@ namespace assort
 
 		void Init(HWND hWnd, POINT resolution);
 		void Run();
+
+		static HWND GetMainHwnd();
 
 	private:
 		App() = default;
@@ -28,6 +30,7 @@ namespace assort
 		static HWND mHWnd;
 		static POINT mResolution;
 		static HDC mHDC;
-		static CObject* mObject;
+		static Object* mObject;
+		static TimeManager* mTimeManager;
 	};
 }

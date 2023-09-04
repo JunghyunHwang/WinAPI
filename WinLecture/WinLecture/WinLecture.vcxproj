@@ -129,14 +129,18 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="CObject.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="Vector2.h" />
     <ClInclude Include="WinLecture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="CObject.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="WinLecture.cpp" />
   </ItemGroup>
   <ItemGroup>
