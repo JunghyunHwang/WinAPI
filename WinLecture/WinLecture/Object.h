@@ -10,12 +10,12 @@ namespace assort
 	{
 		friend App;
 	public:
-		Object();
 		Object(int pX, int pY, int sX, int sY);
 		~Object() = default;
 
 	private:
 		Vector2 mPos;
 		Vector2 mScale;
+		int mSpeed;
 	};
 }

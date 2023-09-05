@@ -13,7 +13,7 @@ namespace assort
 		QueryPerformanceFrequency(&mFrequency);
 	}
 
-	void TimeManager::Update()
+	void TimeManager::update()
 	{
 		QueryPerformanceCounter(&mCurrCount);
 
@@ -25,8 +25,9 @@ namespace assort
 
 		if (mAccDT >= 1.0)
 		{
+			App::GetInstance()->objectSpeedUp();
 			wchar_t szBuffer[255];
-			swprintf_s(szBuffer, L"FPS: %d,  DT: %f", mCallCount, mDT);
+			swprintf_s(szBuffer, L"FPS: %d,  DT: %f  Speed: %d", mCallCount, mDT, App::GetInstance()->getObjectSpeed());
 			SetWindowText(App::GetInstance()->GetMainHwnd(), szBuffer);
 
 			mCallCount = 0;
@@ -34,7 +35,7 @@ namespace assort
 		}
 	}
 
-	double TimeManager::GetDT() const
+	double TimeManager::getDT() const
 	{
 		return mDT;
 	}

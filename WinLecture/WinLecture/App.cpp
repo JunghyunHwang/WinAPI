@@ -1,6 +1,4 @@
 #include "App.h"
-#include "Object.h"
-#include "TimeManager.h"
 
 namespace assort
 {
@@ -9,12 +7,15 @@ namespace assort
 	HWND App::mHWnd = 0;
 	HDC App::mHDC = 0;
 	POINT App::mResolution = { 0, 0 };
-	HBIPMAP App::mHBit = 0;
+	HBITMAP App::mHBit = 0;
 	HDC App::mMemDC = 0;
 
-	Object* App::mObject = nullptr;
-	TimeManager* App::mTimeManager = nullptr;
-
+	App::App()
+		: mTimeManager()
+		, mKeyManager()
+		, mObject(0, 0, 100, 100)
+	{
+	}
 
 	App* App::GetInstance()
 	{
@@ -28,13 +29,15 @@ namespace assort
 
 	void App::Release()
 	{
-		delete mObject;
-		delete mTimeManager;
-
 		DeleteDC(mMemDC);
 		DeleteObject(mHBit);
 		ReleaseDC(mHWnd, mHDC);
 		delete mInstance;
+	}
+
+	HWND App::GetMainHwnd()
+	{
+		return mHWnd;
 	}
 
 	void App::Init(HWND hWnd, POINT resolution)
@@ -52,33 +55,41 @@ namespace assort
 		mMemDC = CreateCompatibleDC(mHDC);
 		DeleteObject(SelectObject(mMemDC, mHBit));
 
-		mObject = new Object(mResolution.x / 2, mResolution.y / 2, 100, 100);
-		mTimeManager = new TimeManager();
+		mObject.mPos.mX = mResolution.x / 2.0;
+		mObject.mPos.mY = mResolution.y / 2.0;
 	}
 
 	void App::Run()
 	{
-		mTimeManager->Update();
+		mTimeManager.update();
+		mKeyManager.update();
 
 		update();
 		render();
 	}
 
-	HWND App::GetMainHwnd()
-	{
-		return mHWnd;
-	}
-
 	void App::update()
 	{
-		if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+		const float objSpeed = mObject.mSpeed;
+
+		if (mKeyManager.getKeyState(eKeyValue::Left) == eKeyState::Hold)
 		{
-			mObject->mPos.mX -= 200 * mTimeManager->GetDT();
+			mObject.mPos.mX -= objSpeed * mTimeManager.getDT();
 		}
 
-		if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+		if (mKeyManager.getKeyState(eKeyValue::Right) == eKeyState::Hold)
 		{
-			mObject->mPos.mX += 200 * mTimeManager->GetDT();
+			mObject.mPos.mX += objSpeed * mTimeManager.getDT();
+		}
+
+		if (mKeyManager.getKeyState(eKeyValue::Up) == eKeyState::Hold)
+		{
+			mObject.mPos.mY -= objSpeed * mTimeManager.getDT();
+		}
+
+		if (mKeyManager.getKeyState(eKeyValue::Down) == eKeyState::Hold)
+		{
+			mObject.mPos.mY += objSpeed * mTimeManager.getDT();
 		}
 	}
 
@@ -87,12 +98,25 @@ namespace assort
 		Rectangle(mMemDC, -1, -1, mResolution.x + 1, mResolution.y + 1);
 
 		Rectangle(mMemDC
-			, mObject->mPos.mX - mObject->mScale.mX / 2
-			, mObject->mPos.mY - mObject->mScale.mY / 2
-			, mObject->mPos.mX + mObject->mScale.mX / 2
-			, mObject->mPos.mY + mObject->mScale.mY / 2);
+			, mObject.mPos.mX - mObject.mScale.mX / 2
+			, mObject.mPos.mY - mObject.mScale.mY / 2
+			, mObject.mPos.mX + mObject.mScale.mX / 2
+			, mObject.mPos.mY + mObject.mScale.mY / 2);
 
 		BitBlt(mHDC, 0, 0, mResolution.x, mResolution.y
 			, mMemDC, 0, 0, SRCCOPY);
+	}
+
+	void App::objectSpeedUp()
+	{
+		if (mObject.mSpeed < 1200)
+		{
+			mObject.mSpeed += 50;
+		}
+	}
+
+	int App::getObjectSpeed()
+	{
+		return mObject.mSpeed;
 	}
 }

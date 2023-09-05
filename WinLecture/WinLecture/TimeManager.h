@@ -4,14 +4,18 @@
 
 namespace assort
 {
+	class App;
+
 	class TimeManager final
 	{
+		friend App;
 	public:
 		TimeManager();
 		~TimeManager() = default;
 
-		void Update();
-		double GetDT() const;
+	private:
+		void update();
+		double getDT() const;
 		
 	private:
 		LARGE_INTEGER mCurrCount;
