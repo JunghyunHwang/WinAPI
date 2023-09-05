@@ -5,11 +5,16 @@
 namespace assort
 {
 	App* App::mInstance = nullptr;
+
 	HWND App::mHWnd = 0;
 	HDC App::mHDC = 0;
 	POINT App::mResolution = { 0, 0 };
+	HBIPMAP App::mHBit = 0;
+	HDC App::mMemDC = 0;
+
 	Object* App::mObject = nullptr;
 	TimeManager* App::mTimeManager = nullptr;
+
 
 	App* App::GetInstance()
 	{
@@ -26,6 +31,8 @@ namespace assort
 		delete mObject;
 		delete mTimeManager;
 
+		DeleteDC(mMemDC);
+		DeleteObject(mHBit);
 		ReleaseDC(mHWnd, mHDC);
 		delete mInstance;
 	}
@@ -40,6 +47,10 @@ namespace assort
 
 		AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, true);
 		SetWindowPos(mHWnd, nullptr, 200, 200, rt.right - rt.left, rt.bottom - rt.top, 0);
+
+		mHBit = CreateCompatibleBitmap(mHDC, mResolution.x, mResolution.y);
+		mMemDC = CreateCompatibleDC(mHDC);
+		DeleteObject(SelectObject(mMemDC, mHBit));
 
 		mObject = new Object(mResolution.x / 2, mResolution.y / 2, 100, 100);
 		mTimeManager = new TimeManager();
@@ -73,10 +84,15 @@ namespace assort
 
 	void App::render()
 	{
-		Rectangle(mHDC
+		Rectangle(mMemDC, -1, -1, mResolution.x + 1, mResolution.y + 1);
+
+		Rectangle(mMemDC
 			, mObject->mPos.mX - mObject->mScale.mX / 2
 			, mObject->mPos.mY - mObject->mScale.mY / 2
 			, mObject->mPos.mX + mObject->mScale.mX / 2
 			, mObject->mPos.mY + mObject->mScale.mY / 2);
+
+		BitBlt(mHDC, 0, 0, mResolution.x, mResolution.y
+			, mMemDC, 0, 0, SRCCOPY);
 	}
 }

@@ -21,6 +21,8 @@ namespace assort
 	private:
 		App() = default;
 		~App() = default;
+		App(const App& other) = delete;
+		App& operator=(const App& rhs) = delete;
 
 		void update();
 		void render();
@@ -32,5 +34,7 @@ namespace assort
 		static HDC mHDC;
 		static Object* mObject;
 		static TimeManager* mTimeManager;
+		static HBITMAP mHBit;
+		static HDC mMemDC;
 	};
 }
