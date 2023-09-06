@@ -13,3 +13,35 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <vector>
+
+enum class eKeyState
+{
+    None,
+    Tap,
+    Hold,
+    Away
+};
+
+enum class eKeyValue
+{
+    Left,
+    Right,
+    Up,
+    Down,
+
+    W,
+    A,
+    S,
+    D,
+    COUNT
+};
+
+struct KeyInfo
+{
+    eKeyState state;
+    bool bIsPressed;
+};
+
+constexpr int TOTAL_KEY_COUNT = static_cast<int>(eKeyValue::COUNT);
+constexpr int DEFAULT_OBJECT_COUNT = 64;

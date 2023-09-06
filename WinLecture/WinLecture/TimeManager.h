@@ -24,5 +24,6 @@ namespace assort
 		double mDT;
 		int mCallCount;
 		double mAccDT;
+		uint32_t mTotalTime;
 	};
 }

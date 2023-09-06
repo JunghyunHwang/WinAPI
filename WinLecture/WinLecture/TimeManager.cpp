@@ -9,6 +9,7 @@ namespace assort
 		, mDT(0)
 		, mCallCount(0)
 		, mAccDT(0)
+		, mTotalTime(0)
 	{
 		QueryPerformanceFrequency(&mFrequency);
 	}
@@ -25,7 +26,7 @@ namespace assort
 
 		if (mAccDT >= 1.0)
 		{
-			App::GetInstance()->objectSpeedUp();
+			++mTotalTime;
 			wchar_t szBuffer[255];
 			swprintf_s(szBuffer, L"FPS: %d,  DT: %f  Speed: %d", mCallCount, mDT, App::GetInstance()->getObjectSpeed());
 			SetWindowText(App::GetInstance()->GetMainHwnd(), szBuffer);

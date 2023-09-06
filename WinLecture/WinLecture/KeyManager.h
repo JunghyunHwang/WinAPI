@@ -1,38 +1,9 @@
 #pragma once
+#include "framework.h"
 
 namespace assort
 {
     class App;
-
-    enum class eKeyState
-    {
-        None,
-        Tap,
-        Hold,
-        Away
-    };
-
-    enum class eKeyValue
-    {
-        Left,
-        Right,
-        Up,
-        Down,
-
-        W,
-        A,
-        S,
-        D,
-        COUNT
-    };
-
-    struct KeyInfo
-    {
-        eKeyState state;
-        bool bIsPressed;
-    };
-
-    constexpr int TOTAL_KEY_COUNT = static_cast<int>(eKeyValue::COUNT);
 
     class KeyManager final
     {
