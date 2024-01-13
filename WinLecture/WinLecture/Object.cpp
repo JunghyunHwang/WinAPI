@@ -1,10 +1,10 @@
+#include "pch.h"
 #include "Object.h"
 
 namespace assort
 {
-	Object::Object(int pX, int pY, int sX, int sY)
-		: mPos{pX, pY}
-		, mScale{sX, sY}
+	Object::Object(float left, float top, float right, float bottom)
+		: mPos{ left, top, right, bottom }
 		, mSpeed(300)
 	{
 	}

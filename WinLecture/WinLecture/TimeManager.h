@@ -1,7 +1,5 @@
 #pragma once
 
-#include "framework.h"
-
 namespace assort
 {
 	class App;
@@ -15,15 +13,15 @@ namespace assort
 
 	private:
 		void update();
-		double getDT() const;
+		float getDT() const;
 		
 	private:
 		LARGE_INTEGER mCurrCount;
 		LARGE_INTEGER mPrevCount;
 		LARGE_INTEGER mFrequency;
-		double mDT;
+		float mDT;
 		int mCallCount;
-		double mAccDT;
+		float mAccDT;
 		uint32_t mTotalTime;
 	};
 }

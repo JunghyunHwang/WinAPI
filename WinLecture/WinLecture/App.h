@@ -1,16 +1,11 @@
 #pragma once
 
-#include "framework.h"
 #include "Object.h"
 #include "TimeManager.h"
 #include "KeyManager.h"
 
 namespace assort
 {
-	class Object;
-	class TimeManager;
-	class KeyManager;
-
 	class App final
 	{
 		friend TimeManager;
@@ -32,7 +27,7 @@ namespace assort
 		void update();
 		void render();
 		void objectSpeedUp();
-		int getObjectSpeed();
+		float getObjectSpeed() const;
 
 	private:
 		static App* mInstance;

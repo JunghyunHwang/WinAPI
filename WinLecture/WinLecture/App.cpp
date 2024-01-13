@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "App.h"
 
 namespace assort
@@ -55,8 +56,10 @@ namespace assort
 		mMemDC = CreateCompatibleDC(mHDC);
 		DeleteObject(SelectObject(mMemDC, mHBit));
 
-		mObject.mPos.mX = mResolution.x / 2.0;
-		mObject.mPos.mY = mResolution.y / 2.0;
+		mObject.mPos.left = (float)mResolution.x / 2 - 50;
+		mObject.mPos.top = (float)mResolution.y / 2 - 50;
+		mObject.mPos.right = (float)mResolution.x / 2 + 50;
+		mObject.mPos.bottom = (float)mResolution.y / 2 + 50;
 	}
 
 	void App::Run()
@@ -74,22 +77,26 @@ namespace assort
 
 		if (mKeyManager.getKeyState(eKeyValue::Left) == eKeyState::Hold)
 		{
-			mObject.mPos.mX -= objSpeed * mTimeManager.getDT();
+			mObject.mPos.left -= objSpeed * mTimeManager.getDT();
+			mObject.mPos.right -= objSpeed * mTimeManager.getDT();
 		}
 
 		if (mKeyManager.getKeyState(eKeyValue::Right) == eKeyState::Hold)
 		{
-			mObject.mPos.mX += objSpeed * mTimeManager.getDT();
+			mObject.mPos.left += objSpeed * mTimeManager.getDT();
+			mObject.mPos.right += objSpeed * mTimeManager.getDT();
 		}
 
 		if (mKeyManager.getKeyState(eKeyValue::Up) == eKeyState::Hold)
 		{
-			mObject.mPos.mY -= objSpeed * mTimeManager.getDT();
+			mObject.mPos.top -= objSpeed * mTimeManager.getDT();
+			mObject.mPos.bottom -= objSpeed * mTimeManager.getDT();
 		}
 
 		if (mKeyManager.getKeyState(eKeyValue::Down) == eKeyState::Hold)
 		{
-			mObject.mPos.mY += objSpeed * mTimeManager.getDT();
+			mObject.mPos.top += objSpeed * mTimeManager.getDT();
+			mObject.mPos.bottom += objSpeed * mTimeManager.getDT();
 		}
 	}
 
@@ -98,10 +105,10 @@ namespace assort
 		Rectangle(mMemDC, -1, -1, mResolution.x + 1, mResolution.y + 1);
 
 		Rectangle(mMemDC
-			, mObject.mPos.mX - mObject.mScale.mX / 2
-			, mObject.mPos.mY - mObject.mScale.mY / 2
-			, mObject.mPos.mX + mObject.mScale.mX / 2
-			, mObject.mPos.mY + mObject.mScale.mY / 2);
+			, static_cast<int>(mObject.mPos.left)
+			, static_cast<int>(mObject.mPos.top)
+			, static_cast<int>(mObject.mPos.right)
+			, static_cast<int>(mObject.mPos.bottom));
 
 		BitBlt(mHDC, 0, 0, mResolution.x, mResolution.y
 			, mMemDC, 0, 0, SRCCOPY);
@@ -115,7 +122,7 @@ namespace assort
 		}
 	}
 
-	int App::getObjectSpeed()
+	float App::getObjectSpeed() const
 	{
 		return mObject.mSpeed;
 	}

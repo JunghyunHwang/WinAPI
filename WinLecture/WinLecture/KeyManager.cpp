@@ -1,5 +1,5 @@
+#include "pch.h"
 #include "KeyManager.h"
-#include "framework.h"
 
 namespace assort
 {

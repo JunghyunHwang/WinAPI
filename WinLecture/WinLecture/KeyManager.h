@@ -1,5 +1,4 @@
 #pragma once
-#include "framework.h"
 
 namespace assort
 {
@@ -19,6 +18,10 @@ namespace assort
         eKeyState getKeyState(eKeyValue val) const;
 
     private:
+        enum
+        {
+            TOTAL_KEY_COUNT = static_cast<int>(eKeyValue::COUNT)
+        };
         static int mVkArray[TOTAL_KEY_COUNT];
         KeyInfo mKeys[TOTAL_KEY_COUNT];
     };

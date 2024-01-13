@@ -104,6 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -131,22 +133,17 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Object.h" />
-    <ClInclude Include="ObjectManager.h" />
-    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TimeManager.h" />
-    <ClInclude Include="Vector2.h" />
     <ClInclude Include="WinLecture.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="ObjectManager.cpp" />
-    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="TimeManager.cpp" />
-    <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="WinLecture.cpp" />
   </ItemGroup>
   <ItemGroup>

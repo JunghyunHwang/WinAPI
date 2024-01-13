@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "TimeManager.h"
 #include "App.h"
 
@@ -18,7 +19,7 @@ namespace assort
 	{
 		QueryPerformanceCounter(&mCurrCount);
 
-		mDT = (double)(mCurrCount.QuadPart - mPrevCount.QuadPart) / mFrequency.QuadPart;
+		mDT = (float)(mCurrCount.QuadPart - mPrevCount.QuadPart) / mFrequency.QuadPart;
 		mPrevCount = mCurrCount;
 
 		++mCallCount;
@@ -28,7 +29,7 @@ namespace assort
 		{
 			++mTotalTime;
 			wchar_t szBuffer[255];
-			swprintf_s(szBuffer, L"FPS: %d,  DT: %f  Speed: %d", mCallCount, mDT, App::GetInstance()->getObjectSpeed());
+			swprintf_s(szBuffer, L"FPS: %d,  DT: %f  Speed: %f", mCallCount, mDT, App::GetInstance()->getObjectSpeed());
 			SetWindowText(App::GetInstance()->GetMainHwnd(), szBuffer);
 
 			mCallCount = 0;
@@ -36,7 +37,7 @@ namespace assort
 		}
 	}
 
-	double TimeManager::getDT() const
+	float TimeManager::getDT() const
 	{
 		return mDT;
 	}
