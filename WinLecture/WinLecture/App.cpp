@@ -102,7 +102,7 @@ namespace assort
 
 	void App::render()
 	{
-		Rectangle(mMemDC, -1, -1, mResolution.x + 1, mResolution.y + 1);
+		Rectangle(mMemDC, -1, -1, mResolution.x + 1, mResolution.y + 1); // Clear window
 
 		Rectangle(mMemDC
 			, static_cast<int>(mObject.mPos.left)

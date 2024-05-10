@@ -28,7 +28,7 @@ namespace assort
 		if (mAccDT >= 1.0)
 		{
 			++mTotalTime;
-			wchar_t szBuffer[255];
+			wchar_t szBuffer[64];
 			swprintf_s(szBuffer, L"FPS: %d,  DT: %f  Speed: %f", mCallCount, mDT, App::GetInstance()->getObjectSpeed());
 			SetWindowText(App::GetInstance()->GetMainHwnd(), szBuffer);
 

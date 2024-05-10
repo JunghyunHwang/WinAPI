@@ -16,9 +16,9 @@ namespace assort
 		float getDT() const;
 		
 	private:
+		LARGE_INTEGER mFrequency; // 사용자의 pc의 초당 셀 수 있는 수의 크기
 		LARGE_INTEGER mCurrCount;
 		LARGE_INTEGER mPrevCount;
-		LARGE_INTEGER mFrequency;
 		float mDT;
 		int mCallCount;
 		float mAccDT;
